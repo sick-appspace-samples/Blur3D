@@ -25,10 +25,12 @@ Script.serveEvent('Blur3D.OnMessage1', 'OnMessage1')
 Script.serveEvent('Blur3D.OnMessage2', 'OnMessage2')
 
 -- Create viewer for original and filtered 3D image
-local viewer1 = View.create()
+local viewer1 = View.create() -- Will show in 3D viewer
 viewer1:setID('viewer1')
-local viewer2 = View.create()
+local viewer2 = View.create() -- Will show in 3D viewer
 viewer2:setID('viewer2')
+local imDeco = View.ImageDecoration.create()
+imDeco:setRange(36, 180)
 
 --End of Global Scope-----------------------------------------------------------
 
@@ -40,7 +42,7 @@ local function filteringImage(heightMap, intensityMap)
 
   -- Visualize the input (original image)
   viewer1:clear()
-  viewer1:addHeightmap({heightMap, intensityMap}, {}, {'Reflectance'})
+  viewer1:addHeightmap({heightMap, intensityMap}, imDeco, {'Reflectance'})
   viewer1:present()
   Script.notifyEvent('OnMessage1', 'Original image')
 
@@ -51,13 +53,16 @@ local function filteringImage(heightMap, intensityMap)
 
   -- Visualize the output (blur image)
   viewer2:clear()
-  viewer2:addHeightmap({blurImage, blurIntensityMap}, {}, {'Reflectance'})
+  viewer2:addHeightmap({blurImage, blurIntensityMap}, imDeco, {'Reflectance'})
   viewer2:present()
 
   Script.notifyEvent('OnMessage2', 'Blur filter, kernel size:' .. kernelsize)
 end
 
 local function main()
+  viewer1:clear()
+  viewer2:clear()
+
   -- Load a json-image
   local data = Object.load('resources/image_23.json')
 
