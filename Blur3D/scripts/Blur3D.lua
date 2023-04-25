@@ -7,14 +7,14 @@ Script.serveEvent('Blur3D.OnMessage2', 'OnMessage2')
 -- Create viewer for original and filtered 3D image
 local viewer1 = View.create('viewer3D1') -- Will show in 3D viewer
 local viewer2 = View.create('viewer3D2') -- Will show in 3D viewer
-local imDeco = View.ImageDecoration.create()
-imDeco:setRange(36, 180)
+local imDeco = View.ImageDecoration.create():setRange(36, 180)
 
 --End of Global Scope-----------------------------------------------------------
 
 -- Start of Function and Event Scope--------------------------------------------
 
---@filteringImage(heightMap:Image, intensityMap:Image)
+---@param heightMap Image
+---@param intensityMap Image
 local function filteringImage(heightMap, intensityMap)
   -- BLUR: Blurs an image using a constant normalized box filter kernel
 
@@ -47,7 +47,7 @@ local function main()
   -- Extract heightmap, intensity map and sensor data
   local heightMap = data[1]
   local intensityMap = data[2]
-  local sensorData = data[3] -- luacheck: ignore
+  local sensorData = data[3]
 
   -- Filter image
   filteringImage(heightMap, intensityMap)
